@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import 'bootstrap/dist/css/bootstrap.min.css'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './TaskPlanner.scss';
 
 const TaskPlanner = () => {
@@ -71,62 +71,112 @@ const TaskPlanner = () => {
     setTasksByDate({ ...tasksByDate, [date]: updatedTasks });
   };
 
+  const handleMoveTask = (date, taskId, newDate) => {
+    const tasksForDate = tasksByDate[date] || [];
+    const taskToMove = tasksForDate.find((task) => task.id === taskId);
+    if (taskToMove) {
+      const formattedDate = newDate.toISOString().split('T')[0];
+      const tasksForNewDate = tasksByDate[formattedDate] || [];
+      const updatedTasksForDate = tasksForDate.filter((task) => task.id !== taskId);
+      const updatedTasksForNewDate = [...tasksForNewDate, { ...taskToMove, date: formattedDate }];
+      setTasksByDate({
+        ...tasksByDate,
+        [date]: updatedTasksForDate,
+        [formattedDate]: updatedTasksForNewDate,
+      });
+    }
+  };
+
   return (
-    <div className='container mt-5'>
-      <h2 className='mb-4'>Task Planner</h2>
+    <div className="container mt-5">
+      <h2 className="mb-4">Task Planner</h2>
       <div>Current Time: {currentTime.toLocaleTimeString()}</div>
-     
-      <div className='d-flex justify-content-center mt-3 mb-4'>
-    
-      <div className="input-group input-group-sm custom-input-group">
-        <input className="form-control m-2 custom-input" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"
-          type="text"
-          value={taskText}
-          onChange={(e) => setTaskText(e.target.value)}
-          placeholder="Enter task"
-        /> </div>
-         <div className="input-group input-group-sm custom-input-group" style={{ zIndex: 100 }}>
-      <DatePicker className="form-control m-2 custom-input" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" 
-        selected={selectedDate}
-        onChange={handleDateChange}
-        dateFormat="EEE MMM dd yyyy"/> </div>
-         </div>
-         <div className='d-flex justify-content-start'>
-      {!editingTaskId ? (
-          <button className='btn btn-primary btn-sm m-2' onClick={handleAddTask}>Add Task</button>
-        ) : (
-          <button className='btn btn-primary btn-sm m-2' onClick={handleUpdateTask}>Update Task</button>
-        )} 
+
+      <div className="d-flex justify-content-center mt-3 mb-4">
+        <div className="input-group input-group-sm custom-input-group">
+          <input
+            className="form-control m-2 custom-input"
+            aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-sm"
+            type="text"
+            value={taskText}
+            onChange={(e) => setTaskText(e.target.value)}
+            placeholder="Enter task"
+          />
         </div>
+        <div className="input-group input-group-sm custom-input-group" style={{ zIndex: 100 }}>
+          <DatePicker
+            className="form-control m-2 custom-input"
+            aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-sm"
+            selected={selectedDate}
+            onChange={handleDateChange}
+            dateFormat="EEE MMM dd yyyy"
+          />
+        </div>
+      </div>
+      <div className="d-flex justify-content-start">
+        {!editingTaskId ? (
+          <button className="btn btn-primary btn-sm m-2" onClick={handleAddTask}>
+            Add Task
+          </button>
+        ) : (
+          <button className="btn btn-primary btn-sm m-2" onClick={handleUpdateTask}>
+            Update Task
+          </button>
+        )}
+      </div>
       {selectedDate && (
         <div>
-          <h3>Tasks for {selectedDate.toDateString()}</h3>
+          <h3 className='h3 mb-4'>Tasks for {selectedDate.toDateString()}</h3>
           {tasksByDate[selectedDate.toISOString().split('T')[0]]?.map((task) => (
-            <div key={task.id}>
-              {editingTaskId === task.id ? (
-                <input
-                  type="text"
-                  value={taskText}
-                  onChange={(e) => setTaskText(e.target.value)}
-                />
-              ) : (
-                <span style={{ textDecoration: task.done ? 'line-through' : 'none' }}>
-                  {task.task}
-                </span>
-              )}
-              {!editingTaskId && (
-                <button className='btn btn-success btn-sm m-2' onClick={() => handleToggleTask(task.date, task.id)}>
-                  {task.done ? 'Undone' : 'Done'}
-                </button>
-              )}
-              {editingTaskId === task.id ? (
-                <button className='btn btn-primary btn-sm m-2' onClick={handleUpdateTask}>Save</button>
-              ) : (
-                <button className='btn btn-warning btn-sm m-2' onClick={() => handleEditTask(task.id)}>Edit</button>
-              )}
-              <button className='btn btn-danger btn-sm m-2' onClick={() => handleDeleteTask(task.date, task.id)}>Delete</button>
-            </div>
-          ))}
+  <div className="d-flex justify-content-center align-items-md-center border border-dark-subtle mb-3" key={task.id}>
+    <div className="d-flex flex-column">
+      <span className='mb-2 mt-2' style={{ textDecoration: task.done ? 'line-through' : 'none' }}>
+        {task.task}
+      </span>
+
+      <div className="d-flex justify-content-center align-items-md-center flex-wrap">
+        {!editingTaskId && (
+          <button
+            className="btn btn-success btn-sm m-2 align-self-center"
+            onClick={() => handleToggleTask(task.date, task.id)}
+          >
+            {task.done ? 'Undone' : 'Done'}
+          </button>
+        )}
+        {editingTaskId === task.id ? (
+          <button className="btn btn-primary btn-sm m-2 align-self-center" onClick={handleUpdateTask}>
+            Save
+          </button>
+        ) : (
+          <button
+            className="btn btn-warning btn-sm m-2 align-self-center"
+            onClick={() => handleEditTask(task.id)}
+          >
+            Edit
+          </button>
+        )}
+        <button
+          className="btn btn-danger btn-sm m-2 align-self-center"
+          onClick={() => handleDeleteTask(task.date, task.id)}
+        >
+          Delete
+        </button>
+        <div className="d-flex justify-content-center align-items-center">
+  <span className="m-3">Move to another date:</span>
+  <DatePicker
+    selected={null}
+    onChange={(newDate) =>
+      handleMoveTask(selectedDate.toISOString().split('T')[0], task.id, newDate)
+    }
+    dateFormat="EEE MMM dd yyyy"
+  />
+  </div>
+  </div>
+    </div>
+  </div>
+))}
         </div>
       )}
     </div>
