@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import 'bootstrap/dist/css/bootstrap.min.css'; 
+import './TaskPlanner.scss';
 
 const TaskPlanner = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [tasksByDate, setTasksByDate] = useState({});
   const [taskText, setTaskText] = useState('');
   const [editingTaskId, setEditingTaskId] = useState(null);
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -62,25 +72,35 @@ const TaskPlanner = () => {
   };
 
   return (
-    <div>
-      <h2>Task Planner</h2>
-      <DatePicker selected={selectedDate} onChange={handleDateChange} />
-      <div>
-        <input
+    <div className='container mt-5'>
+      <h2 className='mb-4'>Task Planner</h2>
+      <div>Current Time: {currentTime.toLocaleTimeString()}</div>
+     
+      <div className='d-flex justify-content-center mt-3 mb-4'>
+    
+      <div className="input-group input-group-sm custom-input-group">
+        <input className="form-control m-2 custom-input" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"
           type="text"
           value={taskText}
           onChange={(e) => setTaskText(e.target.value)}
           placeholder="Enter task"
-        />
-        {!editingTaskId ? (
-          <button onClick={handleAddTask}>Add Task</button>
+        /> </div>
+         <div className="input-group input-group-sm custom-input-group" style={{ zIndex: 100 }}>
+      <DatePicker className="form-control m-2 custom-input" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" 
+        selected={selectedDate}
+        onChange={handleDateChange}
+        dateFormat="EEE MMM dd yyyy"/> </div>
+         </div>
+         <div className='d-flex justify-content-start'>
+      {!editingTaskId ? (
+          <button className='btn btn-primary btn-sm m-2' onClick={handleAddTask}>Add Task</button>
         ) : (
-          <button onClick={handleUpdateTask}>Update Task</button>
-        )}
-      </div>
+          <button className='btn btn-primary btn-sm m-2' onClick={handleUpdateTask}>Update Task</button>
+        )} 
+        </div>
       {selectedDate && (
         <div>
-          <h3>Tasks for {selectedDate.toISOString().split('T')[0]}</h3>
+          <h3>Tasks for {selectedDate.toDateString()}</h3>
           {tasksByDate[selectedDate.toISOString().split('T')[0]]?.map((task) => (
             <div key={task.id}>
               {editingTaskId === task.id ? (
@@ -90,19 +110,21 @@ const TaskPlanner = () => {
                   onChange={(e) => setTaskText(e.target.value)}
                 />
               ) : (
-                <span style={{ textDecoration: task.done ? 'line-through' : 'none' }}>{task.task}</span>
+                <span style={{ textDecoration: task.done ? 'line-through' : 'none' }}>
+                  {task.task}
+                </span>
               )}
               {!editingTaskId && (
-                <button onClick={() => handleToggleTask(task.date, task.id)}>
+                <button className='btn btn-success btn-sm m-2' onClick={() => handleToggleTask(task.date, task.id)}>
                   {task.done ? 'Undone' : 'Done'}
                 </button>
               )}
               {editingTaskId === task.id ? (
-                <button onClick={handleUpdateTask}>Save</button>
+                <button className='btn btn-primary btn-sm m-2' onClick={handleUpdateTask}>Save</button>
               ) : (
-                <button onClick={() => handleEditTask(task.id)}>Edit</button>
+                <button className='btn btn-warning btn-sm m-2' onClick={() => handleEditTask(task.id)}>Edit</button>
               )}
-              <button onClick={() => handleDeleteTask(task.date, task.id)}>Remove</button>
+              <button className='btn btn-danger btn-sm m-2' onClick={() => handleDeleteTask(task.date, task.id)}>Delete</button>
             </div>
           ))}
         </div>
