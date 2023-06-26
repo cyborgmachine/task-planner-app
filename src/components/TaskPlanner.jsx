@@ -117,7 +117,7 @@ const TaskPlanner = () => {
       </div>
       <div className="d-flex justify-content-start">
         {!editingTaskId ? (
-          <button className="btn btn-primary btn-sm m-2" onClick={handleAddTask}>
+          <button className="btn btn-primary btn-md m-2" onClick={handleAddTask}>
             Add Task
           </button>
         ) : (
@@ -128,13 +128,13 @@ const TaskPlanner = () => {
       </div>
       {selectedDate && (
         <div>
-          <h3 className='h3 mb-4'>Tasks for {selectedDate.toDateString()}</h3>
+          <h3 className='h3 mb-4 mt-5'>Tasks for {selectedDate.toDateString()}</h3>
           {tasksByDate[selectedDate.toISOString().split('T')[0]]?.map((task) => (
   <div className="d-flex justify-content-center align-items-md-center border border-dark-subtle mb-3" key={task.id}>
     <div className="d-flex flex-column">
-      <span className='mb-2 mt-2' style={{ textDecoration: task.done ? 'line-through' : 'none' }}>
+     <div className='p-3'> <span className='mb-2 mt-2' style={{ textDecoration: task.done ? 'line-through' : 'none' }}>
         {task.task}
-      </span>
+      </span> </div>
 
       <div className="d-flex justify-content-center align-items-md-center flex-wrap">
         {!editingTaskId && (
