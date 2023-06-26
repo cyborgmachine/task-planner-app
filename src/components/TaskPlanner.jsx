@@ -90,19 +90,19 @@ const TaskPlanner = () => {
                   onChange={(e) => setTaskText(e.target.value)}
                 />
               ) : (
-                <span>{task.task}</span>
+                <span style={{ textDecoration: task.done ? 'line-through' : 'none' }}>{task.task}</span>
               )}
-              <input
-                type="checkbox"
-                checked={task.done}
-                onChange={() => handleToggleTask(task.date, task.id)}
-              />
+              {!editingTaskId && (
+                <button onClick={() => handleToggleTask(task.date, task.id)}>
+                  {task.done ? 'Undone' : 'Done'}
+                </button>
+              )}
               {editingTaskId === task.id ? (
                 <button onClick={handleUpdateTask}>Save</button>
               ) : (
                 <button onClick={() => handleEditTask(task.id)}>Edit</button>
               )}
-              <button onClick={() => handleDeleteTask(task.date, task.id)}>Delete</button>
+              <button onClick={() => handleDeleteTask(task.date, task.id)}>Remove</button>
             </div>
           ))}
         </div>
