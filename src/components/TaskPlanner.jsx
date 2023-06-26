@@ -70,7 +70,7 @@ const TaskPlanner = () => {
     );
     setTasksByDate({ ...tasksByDate, [date]: updatedTasks });
   };
-
+// Move tasks
   const handleMoveTask = (date, taskId, newDate) => {
     const tasksForDate = tasksByDate[date] || [];
     const taskToMove = tasksForDate.find((task) => task.id === taskId);
