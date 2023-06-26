@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/task-planner-app/static/css/main.81c5fa47.css",
-    "main.js": "/task-planner-app/static/js/main.1e0a2852.js",
+    "main.css": "/task-planner-app/static/css/main.97fe8d48.css",
+    "main.js": "/task-planner-app/static/js/main.d2476a5c.js",
     "index.html": "/task-planner-app/index.html",
-    "main.81c5fa47.css.map": "/task-planner-app/static/css/main.81c5fa47.css.map",
-    "main.1e0a2852.js.map": "/task-planner-app/static/js/main.1e0a2852.js.map"
+    "main.97fe8d48.css.map": "/task-planner-app/static/css/main.97fe8d48.css.map",
+    "main.d2476a5c.js.map": "/task-planner-app/static/js/main.d2476a5c.js.map"
   },
   "entrypoints": [
-    "static/css/main.81c5fa47.css",
-    "static/js/main.1e0a2852.js"
+    "static/css/main.97fe8d48.css",
+    "static/js/main.d2476a5c.js"
   ]
 }
