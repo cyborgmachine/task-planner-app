@@ -132,7 +132,7 @@ const TaskPlanner = () => {
           {tasksByDate[selectedDate.toISOString().split('T')[0]]?.map((task) => (
   <div className="d-flex justify-content-center align-items-md-center border border-dark-subtle mb-3" key={task.id}>
     <div className="d-flex flex-column">
-     <div className='p-3'> <span className='mb-2 mt-2' style={{ textDecoration: task.done ? 'line-through' : 'none' }}>
+     <div className='p-3 d-flex justify-content-center'> <span className='mb-2 mt-2 bold-text' style={{ textDecoration: task.done ? 'line-through' : 'none' }}>
         {task.task}
       </span> </div>
 
@@ -163,7 +163,7 @@ const TaskPlanner = () => {
         >
           Delete
         </button>
-        <div className="d-flex justify-content-center align-items-center">
+        <div className="d-flex justify-content-center align-items-center m-3">
   <span className="m-3">Move to another date:</span>
   <DatePicker
     selected={null}
