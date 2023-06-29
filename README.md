@@ -12,4 +12,4 @@ This appliaction was created to set up task for a selected date
 
 ### - Add a new task for a date
 
-### - Existed task can be deleted or edited
+### - Created task can be deleted or edited
